@@ -1,25 +1,34 @@
 <template>
   <v-app-bar :color="'primary'" :elevation="0" :height="70">
     <v-row class="pt-5 pl-5">
-      <v-col :cols="3">
+      <v-col :cols="5">
         <v-select
           :variant="'solo'"
           :itemTitle="'texto'"
           :itemValue="'valor'"
           v-model="opcaoVisualizacao"
-          :items="opcoesVisualizacao"
+          :items="props.opcoesVisualizacao"
           :label="'Opções de visualização'"
         ></v-select>
       </v-col>
     </v-row>
 
-    <v-btn :size="'x-large'" v-tooltip="'Tela Cheia'" @click="onClickTelaCheia()">
-      <v-icon>{{ layoutStore.telaCheia ? 'mdi-fullscreen-exit' : 'mdi-fullscreen' }}</v-icon>
-    </v-btn>
+    <v-spacer></v-spacer>
+
+    <slot></slot>
+
+    <v-col :cols="1">
+      <v-btn v-tooltip="'Filtros'" :variant="'outlined'" @click="onClickFiltros()"
+        ><v-icon>mdi-filter</v-icon></v-btn
+      >
+    </v-col>
   </v-app-bar>
 </template>
 
 <script setup lang="ts">
+// Vue
+const emit = defineEmits(['onClickFiltros'])
+
 // Enums
 import { EOpcoesVisualizacao } from '@/enums/EOpcoesVisualizacao'
 
@@ -29,15 +38,24 @@ import { useLayoutStore } from '@/stores/LayoutStore'
 // Constantes
 const layoutStore = useLayoutStore()
 
+interface PropTypes {
+  /**
+   * Lista de opções de visualização
+   */
+  opcoesVisualizacao: { texto: string; valor: number }[]
+}
+
+function onClickFiltros() {
+  emit('onClickFiltros')
+}
+
+const props = withDefaults(defineProps<PropTypes>(), {
+  opcoesVisualizacao: () => []
+})
+
 const opcaoVisualizacao = defineModel<number>('opcaoVisualizacao', {
   default: EOpcoesVisualizacao.COMPARACAO
 })
-
-const opcoesVisualizacao = [
-  { texto: 'Comparação', valor: EOpcoesVisualizacao.COMPARACAO },
-  { texto: 'Apenas Entrada', valor: EOpcoesVisualizacao.APENAS_ENTRADA },
-  { texto: 'Apenas Resultado', valor: EOpcoesVisualizacao.APENAS_RESULTADO }
-]
 
 function onClickTelaCheia() {
   toggleFullScreen()
