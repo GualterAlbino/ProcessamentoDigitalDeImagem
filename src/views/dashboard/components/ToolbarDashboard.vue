@@ -56,42 +56,4 @@ const props = withDefaults(defineProps<PropTypes>(), {
 const opcaoVisualizacao = defineModel<number>('opcaoVisualizacao', {
   default: EOpcoesVisualizacao.COMPARACAO
 })
-
-function onClickTelaCheia() {
-  toggleFullScreen()
-}
-
-//----------------
-// Manipulação de tela cheia
-//---------------
-
-function toggleFullScreen() {
-  const element = document.documentElement
-
-  if (!layoutStore.telaCheia) {
-    if (element.requestFullscreen) {
-      element.requestFullscreen()
-      // } else if (element.mozRequestFullScreen) {
-      //   element.mozRequestFullScreen();
-      // } else if (element.webkitRequestFullscreen) {
-      //   element.webkitRequestFullscreen();
-      // } else if (element.msRequestFullscreen) {
-      //   element.msRequestFullscreen();
-      //
-    }
-  } else {
-    if (document.exitFullscreen) {
-      document.exitFullscreen()
-      // } else if (document.mozCancelFullScreen) {
-      //   document.mozCancelFullScreen();
-      // } else if (document.webkitExitFullscreen) {
-      //   document.webkitExitFullscreen();
-      // } else if (document.msExitFullscreen) {
-      //   document.msExitFullscreen();
-      //
-    }
-  }
-
-  layoutStore.telaCheia = !layoutStore.telaCheia
-}
 </script>

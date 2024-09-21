@@ -22,9 +22,7 @@
             :label="'Carregar imagem'"
             :accept="'image/png, image/jpeg, image/bmp'"
             @change="onImageEntradaChange($event)"
-            @click:clear="
-             onClearImagem()
-            "
+            @click:clear="onClearImagem()"
           ></v-file-input>
         </template>
       </CardImage>
@@ -131,6 +129,7 @@ const opcaoVisualizacao = ref<number>(EOpcoesVisualizacao.APENAS_ENTRADA)
 function onClearImagem() {
   imagemEntrada.value = null
   imagemResultado.value = null
+  opcaoVisualizacao.value = EOpcoesVisualizacao.APENAS_ENTRADA
 }
 
 function onClickFiltos() {
