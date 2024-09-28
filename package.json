@@ -3,6 +3,9 @@
   "author": {
     "name": "Gualter Albino / Marcos Paulo / João Vitor Teixeira"
   },
+  "engines": {
+    "node": ">=22.1.0"
+  },
   "version": "0.0.0",
   "private": true,
   "type": "module",
