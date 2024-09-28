@@ -3,6 +3,8 @@
     <v-app :class="[]">
       <!-- Header -->
 
+      <Loading />
+
       <v-main>
         <div class="LStyleLayoutPage">
           <!-- Conteúdo -->
@@ -18,6 +20,9 @@
   </v-locale-provider>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+// Components
+import Loading from '@/components/Loading.vue'
+</script>
 
 <style scoped></style>
