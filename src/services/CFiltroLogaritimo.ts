@@ -31,8 +31,6 @@ export default class CFiltroLogaritimo implements IFiltro {
           console.log(linhaLog);
           matrizLog.push(linhaLog);
 
-        
-        
         }
         return matrizLog
       }
