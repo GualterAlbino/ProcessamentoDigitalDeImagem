@@ -30,25 +30,27 @@
             <v-divider></v-divider>
 
             <v-form v-model="isFormValido" @submit.prevent>
-              <div>
-                <InputExpansao v-model:filtros="filtro.expansao" />
-              </div>
+              <v-container>
+                <div>
+                  <InputExpansao v-model:filtros="filtro.expansao" />
+                </div>
 
-              <div>
-                <InputCompressao v-model:filtros="filtro.compressao" />
-              </div>
+                <div>
+                  <InputCompressao v-model:filtros="filtro.compressao" />
+                </div>
 
-              <div>
-                <InputNegativo v-model:filtros="filtro.negativo" />
-              </div>
+                <div>
+                  <InputEspelhamentoVertical v-model:filtros="filtro.espelhamentoVertical" />
+                </div>
 
-              <div>
-                <InputEspelhamentoVertical v-model:filtros="filtro.espelhamentoVertical" />
-              </div>
+                <div>
+                  <InputEspelhamentoHorizontal v-model:filtros="filtro.espelhamentoHorizontal" />
+                </div>
 
-              <div>
-                <InputEspelhamentoHorizontal v-model:filtros="filtro.espelhamentoHorizontal" />
-              </div>
+                <div>
+                  <InputGenerico v-model:filtros="filtro.negativo" titulo="Filtro Negativo" />
+                </div>
+              </v-container>
             </v-form>
 
             <div class="mt-3 mb-3">
@@ -129,11 +131,13 @@ import CFiltroEspelhamentoHorizontal from '@/services/CFiltroEspelhamentoHorizon
 // Components
 import InputNegativo from './inputs/InputNegativo.vue'
 import InputExpansao from './inputs/InputExpansao.vue'
+import InputGenerico from './inputs/InputGenerico.vue'
 import InputCompressao from './inputs/InputCompressao.vue'
-import InputEspelhamentoVertical from './inputs/InputEspelhamentovertical.vue'
+import InputEspelhamentoVertical from './inputs/InputEspelhamentoVertical.vue'
 import InputEspelhamentoHorizontal from './inputs/InputEspelhamentoHorizontal.vue'
 
 // Propriedades reativas
+const ordem = ref<number>(0)
 const filtro = ref<CFiltro>(new CFiltro())
 const isFormValido = ref<boolean>(false)
 const opcoesFiltros = ref<{ texto: string; valor: number }[]>([
