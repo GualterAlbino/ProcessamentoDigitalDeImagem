@@ -118,6 +118,9 @@ import ToolbarDashboard from './components/ToolbarDashboard.vue'
 // Enums
 import { EOpcoesVisualizacao } from '@/enums/EOpcoesVisualizacao'
 
+//Services
+import CFiltro from '@/services/base/CFiltro'
+
 // Propriedades reativas
 const exibirFiltros = ref<boolean>(false)
 const imagemEntrada = ref<string | null>(null)
@@ -145,16 +148,18 @@ function onClickFullscrenImagemResultado() {
 }
 
 // Manipula o evento de mudança de imagem
-function onImageEntradaChange(event: Event) {
+async function onImageEntradaChange(event: Event) {
   const target = event.target as HTMLInputElement
   const file = target.files?.[0]
 
   if (file) {
     const reader = new FileReader()
 
-    reader.onload = () => {
+    reader.onload = async () => {
       imagemEntrada.value = reader.result as string
       imagemResultado.value = reader.result as string
+
+      console.log(await CFiltro.obterMatrizImagem((reader.result as string) || ''))
     }
 
     reader.readAsDataURL(file)
