@@ -1,3 +1,5 @@
-import CFiltro from './base/CFiltro'
-
-export default class CFiltroModa extends CFiltro {}
+export default class CFiltroModa implements IFiltro {
+  executar(pImagem: number[][]): number[][] {
+    throw new Error('Method not implemented.')
+  }
+}

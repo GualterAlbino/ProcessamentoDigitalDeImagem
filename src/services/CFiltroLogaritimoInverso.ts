@@ -1,4 +1,4 @@
-export default class CFiltroPrewitt implements IFiltro {
+export default class CFiltroLogaritimoInverso implements IFiltro {
   executar(pImagem: number[][]): number[][] {
     throw new Error('Method not implemented.')
   }

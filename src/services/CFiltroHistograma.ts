@@ -1,3 +1,5 @@
-import CFiltro from './base/CFiltro'
-
-export default class CFiltroHistograma extends CFiltro {}
+export default class CFiltroHistograma implements IFiltro {
+  executar(pImagem: number[][]): number[][] {
+    throw new Error('Method not implemented.')
+  }
+}

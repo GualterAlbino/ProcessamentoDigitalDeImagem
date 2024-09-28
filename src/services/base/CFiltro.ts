@@ -1,10 +1,41 @@
+import type CFiltroExpansao from '../CFiltroExpansao'
+import type CFiltroNegativo from '../CFiltroNegativo'
+import type CFiltroCompressao from '../CFiltroCompressao'
+import type CFiltroLogaritimo from '../CFiltroLogaritimo'
+import type CFiltroEspelhamentoVertical from '../CFiltroEpelhamentoVertical'
+import type CFiltroEspelhamentoHorizontal from '../CFiltroEspelhamentoHorizontal'
+
 export default class CFiltro {
+  negativo: CFiltroNegativo[] = []
+  logaritimo: CFiltroLogaritimo[] = []
+  logaritimoInverso: CFiltroLogaritimo[] = []
+  potencia: CFiltroLogaritimo[] = []
+  raiz: CFiltroLogaritimo[] = []
+  ampliacaoReplicacao512x512: CFiltroLogaritimo[] = []
+  ampliacaoReplicacao1024x1024: CFiltroLogaritimo[] = []
+  ampliacaoBilinear512x512: CFiltroLogaritimo[] = []
+  ampliacaoBilinear1024x1024: CFiltroLogaritimo[] = []
+  espelhamentoHorizontal: CFiltroEspelhamentoHorizontal[] = []
+  espelhamentoVertical: CFiltroEspelhamentoVertical[] = []
+  expansao: CFiltroExpansao[] = []
+  compressao: CFiltroCompressao[] = []
+  somarImagens: CFiltroLogaritimo[] = []
+  media: CFiltroLogaritimo[] = []
+  mediana: CFiltroLogaritimo[] = []
+  moda: CFiltroLogaritimo[] = []
+  minimo: CFiltroLogaritimo[] = []
+  maximo: CFiltroLogaritimo[] = []
+  laplaciano: CFiltroLogaritimo[] = []
+  highBoost: CFiltroLogaritimo[] = []
+  prewitt: CFiltroLogaritimo[] = []
+  sobel: CFiltroLogaritimo[] = []
+
   /**
    *  Converte uma imagem em Base64 para uma matriz bidimensional de intensidades de pixels.
    * @param pImagem - Imagem no formato Base64
    * @returns - Uma Promise que resolve em uma matriz bidimensional (number[][]) com as intensidades dos pixels
    */
-  public static obterMatrizImagem(pImagem: string): Promise<number[][]> {
+  public static base64ToMatriz(pImagem: string): Promise<number[][]> {
     try {
       return new Promise((resolve, reject) => {
         const image = new Image() // Cria um novo objeto de imagem
@@ -65,5 +96,65 @@ export default class CFiltro {
       console.log(error)
       throw error // Lança o erro para tratamento externo
     }
+  }
+
+  /**
+   * Converte uma matriz bidimensional de intensidades de pixels de volta para uma imagem em Base64.
+   * @param matriz - Matriz bidimensional contendo as intensidades dos pixels (número de 0 a 255)
+   * @returns - Uma Promise que resolve para uma string Base64 que representa a imagem
+   */
+  public static matrizToBase64(matriz: number[][]): Promise<string> {
+    try {
+      return new Promise((resolve, reject) => {
+        // Cria um canvas temporário
+        const canvas = document.createElement('canvas')
+        const context = canvas.getContext('2d')
+
+        // Verifica se o contexto 2D está disponível
+        if (!context) {
+          reject('Contexto do canvas não disponível')
+          return
+        }
+
+        // Define as dimensões do canvas de acordo com a matriz (altura e largura)
+        const height = matriz.length // O número de linhas da matriz é a altura
+        const width = matriz[0].length // O número de colunas é a largura
+        canvas.width = width
+        canvas.height = height
+
+        // Cria um novo ImageData com a mesma largura e altura da matriz
+        const imageData = context.createImageData(width, height)
+
+        // Itera sobre cada pixel da matriz e insere os valores de intensidade no ImageData
+        for (let y = 0; y < height; y++) {
+          for (let x = 0; x < width; x++) {
+            const intensity = matriz[y][x] // Obtém o valor de intensidade da matriz
+            const index = (y * width + x) * 4 // Cada pixel tem 4 valores (R, G, B, A)
+
+            // Define os valores R, G e B com a intensidade (para tons de cinza, os três são iguais)
+            imageData.data[index] = intensity // Red
+            imageData.data[index + 1] = intensity // Green
+            imageData.data[index + 2] = intensity // Blue
+            imageData.data[index + 3] = 255 // Alpha (opacidade total)
+          }
+        }
+
+        // Desenha os dados de pixel no canvas
+        context.putImageData(imageData, 0, 0)
+
+        // Converte o canvas em uma imagem Base64 (formato PNG)
+        const base64Image = canvas.toDataURL('image/png')
+
+        resolve(base64Image) // Retorna a string Base64 da imagem
+      })
+    } catch (error) {
+      console.log(error)
+      throw error // Lança o erro para tratamento externo
+    }
+  }
+
+  public static arredondar(pNumber: number): number {
+    return Number(pNumber.toFixed(0))
+    //return Math.max(0, Math.min(255, pNumber))
   }
 }

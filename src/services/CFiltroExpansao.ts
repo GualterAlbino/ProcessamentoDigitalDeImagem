@@ -1,3 +1,9 @@
-import CFiltro from './base/CFiltro'
+export default class CFiltroExpansao implements IFiltro {
+  public a: number | null = null
+  public b: number | null = null
 
-export default class CFiltroExpansao extends CFiltro {}
+  constructor() {}
+  executar(pImagem: number[][]): number[][] {
+    throw new Error('Method not implemented.')
+  }
+}
