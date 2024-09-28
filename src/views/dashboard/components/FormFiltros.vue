@@ -49,6 +49,9 @@
               <div>
                 <InputEspelhamentoHorizontal v-model:filtros="filtro.espelhamentoHorizontal" />
               </div>
+              <div>
+                <InputLogaritmo v-model:filtros="filtro.logaritimo" />
+              </div>
             </v-form>
 
             <div class="mt-3 mb-3">
@@ -130,8 +133,9 @@ import CFiltroEspelhamentoHorizontal from '@/services/CFiltroEspelhamentoHorizon
 import InputNegativo from './inputs/InputNegativo.vue'
 import InputExpansao from './inputs/InputExpansao.vue'
 import InputCompressao from './inputs/InputCompressao.vue'
-import InputEspelhamentoVertical from './inputs/InputEspelhamentovertical.vue'
+import InputEspelhamentoVertical from './inputs/InputEspelhamentoVertical.vue'
 import InputEspelhamentoHorizontal from './inputs/InputEspelhamentoHorizontal.vue'
+import InputLogaritmo from './inputs/InputLogaritmo.vue';
 
 // Propriedades reativas
 const filtro = ref<CFiltro>(new CFiltro())
