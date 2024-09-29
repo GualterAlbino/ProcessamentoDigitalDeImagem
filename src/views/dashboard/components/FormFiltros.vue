@@ -164,8 +164,20 @@ function onDeleteFiltro(pIndex: number) {
 }
 
 function onParamUpdate(pData: { index: number; pValor: any }) {
-  console.log('Chegou aqui na atualização de parametros: ', pData)
-  filtros.value[pData.index].params = pData.pValor
+  try {
+    console.log('Chegou aqui na atualização de parametros: ', pData)
+
+    if (!filtros.value[pData.index]) {
+      return
+    }
+
+    filtros.value[pData.index].params = pData.pValor
+
+    console.log('Filtros atualizados: ', filtros.value)
+  } catch (error) {
+    exibirMensagem('Erro ao atualizar parâmetros do filtro! ', error)
+    throw error
+  }
 }
 
 function onClickFecharDialog() {
@@ -173,126 +185,140 @@ function onClickFecharDialog() {
 }
 
 function onClickAdicionarFiltro() {
-  if (filtroSelecionado.value && filtroSelecionado.value.valor == 0) {
-    return
+  try {
+    if (filtroSelecionado.value && filtroSelecionado.value.valor == 0) {
+      return
+    }
+
+    let instanciaFiltro: any = {}
+    switch (filtroSelecionado.value?.valor) {
+      case ETipoFiltroPDI.NEGATIVO:
+        instanciaFiltro = new CFiltroNegativo()
+        break
+
+      case ETipoFiltroPDI.LOGARITIMO:
+        instanciaFiltro = new CFiltroLogaritimo()
+        break
+
+      case ETipoFiltroPDI.LOGARITIMO_INVERSO:
+        instanciaFiltro = new CFiltroLogaritimo()
+        break
+
+      case ETipoFiltroPDI.POTENCIA:
+        instanciaFiltro = new CFiltroPotencia()
+        break
+
+      case ETipoFiltroPDI.RAIZ:
+        instanciaFiltro = new CFiltroRaiz()
+        break
+
+      case ETipoFiltroPDI.AMPLIACAO_REPLICACAO_512X512:
+        instanciaFiltro = new CFiltroAmpliacao512()
+        break
+
+      case ETipoFiltroPDI.AMPLIACAO_REPLICACAO_1024X1024:
+        instanciaFiltro = new CFiltroAmpliacao512()
+        break
+
+      case ETipoFiltroPDI.AMPLIACAO_BILINEAR_512X512:
+        instanciaFiltro = new CFiltroAmpliacao512()
+        break
+
+      case ETipoFiltroPDI.AMPLIACAO_BILINEAR_1024X1024:
+        instanciaFiltro = new CFiltroAmpliacao512()
+        break
+
+      case ETipoFiltroPDI.ESPELHAMENTO_HORIZONTAL:
+        instanciaFiltro = new CFiltroEspelhamentoHorizontal()
+        break
+
+      case ETipoFiltroPDI.ESPELHAMENTO_VERTICAL:
+        instanciaFiltro = new CFiltroEspelhamentoVertical()
+        break
+
+      case ETipoFiltroPDI.EXPANSAO:
+        instanciaFiltro = new CFiltroExpansao()
+        break
+
+      case ETipoFiltroPDI.COMPRESSAO:
+        instanciaFiltro = new CFiltroCompressao()
+        break
+
+      case ETipoFiltroPDI.SOMAR_IMAGENS:
+        instanciaFiltro = new CFiltroSomarImagens()
+        break
+
+      case ETipoFiltroPDI.MEDIA:
+        instanciaFiltro = new CFiltroMedia()
+        break
+
+      case ETipoFiltroPDI.MEDIANA:
+        instanciaFiltro = new CFiltroMedia()
+        break
+
+      case ETipoFiltroPDI.MODA:
+        instanciaFiltro = new CFiltroMedia()
+        break
+
+      case ETipoFiltroPDI.MINIMO:
+        instanciaFiltro = new CFiltroMedia()
+        break
+
+      case ETipoFiltroPDI.MAXIMO:
+        instanciaFiltro = new CFiltroMedia()
+        break
+
+      case ETipoFiltroPDI.LAPLACIANO:
+        instanciaFiltro = new CFiltroMedia()
+        break
+
+      case ETipoFiltroPDI.HIGH_BOOST:
+        instanciaFiltro = new CFiltroMedia()
+        break
+
+      case ETipoFiltroPDI.PREWITT:
+        instanciaFiltro = new CFiltroMedia()
+        break
+
+      case ETipoFiltroPDI.SOBEL:
+        instanciaFiltro = new CFiltroMedia()
+        break
+    }
+
+    // Remove a propriedade "ordem" do objeto
+    delete instanciaFiltro['ordem']
+
+    // Monta o objeto de filtro
+    const filtro: IFiltroFormFiltro = {
+      ordem: ordem.value++,
+      subtitulo: '',
+      params: instanciaFiltro,
+      tipo: filtroSelecionado.value!.valor,
+      titulo: filtroSelecionado.value!.texto
+    }
+
+    // Armazena o filtro
+    filtros.value.push(filtro)
+
+    // Incrementa a ordem
+    ordem.value++
+  } catch (error) {
+    console.error(error)
+    exibirMensagem('Erro ao adicionar filtro! ', error)
   }
-
-  let instanciaFiltro: any = {}
-  switch (filtroSelecionado.value?.valor) {
-    case ETipoFiltroPDI.NEGATIVO:
-      instanciaFiltro = new CFiltroNegativo()
-      break
-
-    case ETipoFiltroPDI.LOGARITIMO:
-      instanciaFiltro = new CFiltroLogaritimo()
-      break
-
-    case ETipoFiltroPDI.LOGARITIMO_INVERSO:
-      instanciaFiltro = new CFiltroLogaritimo()
-      break
-
-    case ETipoFiltroPDI.POTENCIA:
-      instanciaFiltro = new CFiltroPotencia()
-      break
-
-    case ETipoFiltroPDI.RAIZ:
-      instanciaFiltro = new CFiltroRaiz()
-      break
-
-    case ETipoFiltroPDI.AMPLIACAO_REPLICACAO_512X512:
-      instanciaFiltro = new CFiltroAmpliacao512()
-      break
-
-    case ETipoFiltroPDI.AMPLIACAO_REPLICACAO_1024X1024:
-      instanciaFiltro = new CFiltroAmpliacao512()
-      break
-
-    case ETipoFiltroPDI.AMPLIACAO_BILINEAR_512X512:
-      instanciaFiltro = new CFiltroAmpliacao512()
-      break
-
-    case ETipoFiltroPDI.AMPLIACAO_BILINEAR_1024X1024:
-      instanciaFiltro = new CFiltroAmpliacao512()
-      break
-
-    case ETipoFiltroPDI.ESPELHAMENTO_HORIZONTAL:
-      instanciaFiltro = new CFiltroEspelhamentoHorizontal()
-      break
-
-    case ETipoFiltroPDI.ESPELHAMENTO_VERTICAL:
-      instanciaFiltro = new CFiltroEspelhamentoVertical()
-      break
-
-    case ETipoFiltroPDI.EXPANSAO:
-      instanciaFiltro = new CFiltroExpansao()
-      break
-
-    case ETipoFiltroPDI.COMPRESSAO:
-      instanciaFiltro = new CFiltroCompressao()
-      break
-
-    case ETipoFiltroPDI.SOMAR_IMAGENS:
-      instanciaFiltro = new CFiltroSomarImagens()
-      break
-
-    case ETipoFiltroPDI.MEDIA:
-      instanciaFiltro = new CFiltroMedia()
-      break
-
-    case ETipoFiltroPDI.MEDIANA:
-      instanciaFiltro = new CFiltroMedia()
-      break
-
-    case ETipoFiltroPDI.MODA:
-      instanciaFiltro = new CFiltroMedia()
-      break
-
-    case ETipoFiltroPDI.MINIMO:
-      instanciaFiltro = new CFiltroMedia()
-      break
-
-    case ETipoFiltroPDI.MAXIMO:
-      instanciaFiltro = new CFiltroMedia()
-      break
-
-    case ETipoFiltroPDI.LAPLACIANO:
-      instanciaFiltro = new CFiltroMedia()
-      break
-
-    case ETipoFiltroPDI.HIGH_BOOST:
-      instanciaFiltro = new CFiltroMedia()
-      break
-
-    case ETipoFiltroPDI.PREWITT:
-      instanciaFiltro = new CFiltroMedia()
-      break
-
-    case ETipoFiltroPDI.SOBEL:
-      instanciaFiltro = new CFiltroMedia()
-      break
-  }
-
-  // Remove a propriedade "ordem" do objeto
-  delete instanciaFiltro['ordem']
-
-  // Monta o objeto de filtro
-  const filtro: IFiltroFormFiltro = {
-    ordem: ordem.value++,
-    subtitulo: '',
-    params: instanciaFiltro,
-    tipo: filtroSelecionado.value!.valor,
-    titulo: filtroSelecionado.value!.texto
-  }
-
-  // Armazena o filtro
-  filtros.value.push(filtro)
-
-  // Incrementa a ordem
-  ordem.value++
 }
 
-function onAplicarFiltros() {
+async function onAplicarFiltros() {
   try {
+    if (filtros.value.length === 0) {
+      return
+    }
+
+    if (imagem.value.length === 0) {
+      exibirMensagem('Erro ao aplicar filtros! ', 'Imagem não carregada')
+      return
+    }
+
     exibirDialog.value = false
     useLayoutStore().loading.mensagem = 'Aplicando filtros...'
 
@@ -300,7 +326,7 @@ function onAplicarFiltros() {
 
     const filtrosOrdenados = filtros.value.sort((a, b) => a.ordem - b.ordem)
     for (const filtro of filtrosOrdenados) {
-      resultado = filtro.params.executar(resultado)
+      resultado = await filtro.params.executar(resultado)
     }
 
     // 24 filtros da aba filtros
@@ -308,11 +334,17 @@ function onAplicarFiltros() {
     emit('onImagemAtualizada', resultado)
   } catch (error) {
     console.error(error)
-    throw error
+    exibirMensagem('Erro ao aplicar filtros! ', error)
   } finally {
     exibirDialog.value = false
     useLayoutStore().loading.mensagem = ''
   }
+}
+
+function exibirMensagem(pTitulo: string = 'Erro', pErro: string | any) {
+  useLayoutStore().messageDialog.show = true
+  useLayoutStore().messageDialog.titulo = pTitulo
+  useLayoutStore().messageDialog.mensagem = pErro instanceof Error ? pErro.message : pErro
 }
 </script>
 

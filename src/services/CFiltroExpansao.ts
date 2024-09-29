@@ -1,5 +1,4 @@
 export default class CFiltroExpansao implements IFiltro {
-  ordem: number = 0
   public a: number | null = null
   public b: number | null = null
 

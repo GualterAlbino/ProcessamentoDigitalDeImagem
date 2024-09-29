@@ -6,12 +6,24 @@ type TLoading = {
   percentual?: number
 }
 
+type TMessageDialog = {
+  show: boolean
+  titulo: string
+  mensagem: string
+  tipo: 'info' | 'success' | 'alert' | 'error' | 'question'
+}
+
 export const useLayoutStore = defineStore('[LAYOUT]', () => {
-  const telaCheia = ref<boolean>(false)
   const loading = ref<TLoading>({ mensagem: '' })
+  const messageDialog = ref<TMessageDialog>({
+    show: false,
+    titulo: '',
+    mensagem: '',
+    tipo: 'error'
+  })
 
   return {
     loading,
-    telaCheia
+    messageDialog
   }
 })
