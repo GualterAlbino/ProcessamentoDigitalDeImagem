@@ -5,22 +5,34 @@
         <v-speed-dial location="left center" transition="fade-transition">
           <template v-slot:activator="{ props: activatorProps }">
             <v-fab
-              v-bind="activatorProps"
               size="large"
-              :color="'primary'"
               :icon="true"
+              :color="'primary'"
+              v-bind="activatorProps"
               v-tooltip="'Histogramas'"
             >
               <v-icon>mdi-chart-histogram</v-icon>
             </v-fab>
           </template>
 
-          <v-btn key="1" :color="'success'" :icon="true" v-tooltip="'Histograma'">
-            <v-icon>mdi-chart-bar</v-icon>
+          <v-btn
+            key="1"
+            :icon="true"
+            :color="'success'"
+            v-tooltip="'Histograma da Imagem Resultante'"
+            @click="onClickExibirHistogramaImagemResultante()"
+          >
+            <v-icon>mdi-chart-bar-stacked</v-icon>
           </v-btn>
 
-          <v-btn key="2" :icon="true" :color="'success'" v-tooltip="'Histograma Equalizado'">
-            <v-icon>mdi-chart-bar-stacked</v-icon>
+          <v-btn
+            key="2"
+            :color="'success'"
+            :icon="true"
+            v-tooltip="'Histograma da Imagem de Entrada'"
+            @click="onClickExibirHistogramaImagemEntrada()"
+          >
+            <v-icon>mdi-chart-bar</v-icon>
           </v-btn>
         </v-speed-dial>
       </v-col>
@@ -81,7 +93,9 @@
 const emit = defineEmits([
   'onClickRotacao90Horario',
   'onClickRotacao90AntiHorario',
-  'onClickRotacao180'
+  'onClickRotacao180',
+  'onClickExibirHistogramaImagemEntrada',
+  'onClickExibirHistogramaImagemResultante'
 ])
 
 function onClickRotacao180() {
@@ -94,6 +108,14 @@ function onClickRotacao90Horario() {
 
 function onClickRotacao90AntiHorario() {
   emit('onClickRotacao90AntiHorario')
+}
+
+function onClickExibirHistogramaImagemEntrada() {
+  emit('onClickExibirHistogramaImagemEntrada')
+}
+
+function onClickExibirHistogramaImagemResultante() {
+  emit('onClickExibirHistogramaImagemResultante')
 }
 </script>
 

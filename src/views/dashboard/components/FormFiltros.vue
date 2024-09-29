@@ -36,6 +36,10 @@
           <v-card-text>
             <!-- Conteúdo da lista com rolagem -->
             <div class="LStyleScrollableContent">
+              <v-card-subtitle v-if="filtros.length > 0"
+                >Arraste os itens para definir a <strong>ordem</strong> de aplicação dos
+                filtros.</v-card-subtitle
+              >
               <v-row justify="center">
                 <v-col v-if="filtros.length > 0" :cols="12">
                   <VueDraggable v-model="filtros">
@@ -43,11 +47,10 @@
                       <InputGenerico
                         :index="index"
                         :ordem="index"
-                        :params="filtro.params"
                         :titulo="filtro.titulo"
+                        v-model:params="filtro.params"
                         :subtitulo="filtro.subtitulo"
                         @onDelete="onDeleteFiltro($event)"
-                        @onParamUpdate="onParamUpdate($event)"
                       />
                     </div>
                   </VueDraggable>
@@ -117,6 +120,7 @@ import CFiltroHighBoost from '@/services/CFiltroHighBoost'
 import CFiltroCompressao from '@/services/CFiltroCompressao'
 import CFiltroLogaritimo from '@/services/CFiltroLogaritimo'
 import CFiltroLaplaciano from '@/services/CFiltroLaplaciano'
+import CFiltroEqualizacao from '@/services/CFiltroEqualizacao'
 import CFiltroAmpliacao512 from '@/services/CFiltroAmpliacao512'
 import CFiltroSomarImagens from '@/services/CFiltroSomarImagens'
 import CFiltroLogaritimoInverso from '@/services/CFiltroLogaritimoInverso'
@@ -170,23 +174,6 @@ const imagem = defineModel<number[][]>('imagem', {
 
 function onDeleteFiltro(pIndex: number) {
   filtros.value.splice(pIndex, 1)
-}
-
-function onParamUpdate(pData: { index: number; pValor: any }) {
-  try {
-    console.log('Chegou aqui na atualização de parametros: ', pData)
-
-    if (!filtros.value[pData.index]) {
-      return
-    }
-
-    filtros.value[pData.index].params = pData.pValor
-
-    console.log('Filtros atualizados: ', filtros.value)
-  } catch (error) {
-    exibirMensagem('Erro ao atualizar parâmetros do filtro! ', error)
-    throw error
-  }
 }
 
 function onClickFecharDialog() {
@@ -292,6 +279,10 @@ function onClickAdicionarFiltro() {
       case ETipoFiltroPDI.SOBEL:
         instanciaFiltro = new CFiltroSobel()
         break
+
+      case ETipoFiltroPDI.EQUALIZACAO:
+        instanciaFiltro = new CFiltroEqualizacao()
+        break
     }
 
     // Remove a propriedade "ordem" do objeto
@@ -355,7 +346,6 @@ watch(
   (newValue) => {
     // Limpa os filtros quando a imagem é alterada
     if (newValue.length === 0) {
-      console.log('Limpando filtros')
       ordem.value = 0
       filtros.value = []
     }
