@@ -28,4 +28,8 @@ app.use(vuetify)
 // MDI icons
 import '@mdi/font/css/materialdesignicons.css'
 
+// ApexCharts
+import VueApexCharts from 'vue3-apexcharts'
+app.use(VueApexCharts)
+
 app.mount('#app')

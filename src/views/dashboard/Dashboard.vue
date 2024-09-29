@@ -6,7 +6,7 @@
   />
 
   <v-row>
-    <v-col v-if="exibeImagemEntrada" :cols="colunasImagem">
+    <v-col v-if="exibeImagemEntrada" :cols="$vuetify.display.smAndUp ? colunasImagem : 12">
       <CardImage
         :titulo="'Imagem de Entrada'"
         v-model:imagem="imagemEntradaBase64"
@@ -28,7 +28,7 @@
       </CardImage>
     </v-col>
 
-    <v-col v-if="exibeImagemResultado" :cols="colunasImagem">
+    <v-col v-if="exibeImagemResultado" :cols="$vuetify.display.smAndUp ? colunasImagem : 12">
       <CardImage
         :maxWidhtCard="widhtImage"
         :titulo="'Imagem Resultante'"
@@ -54,7 +54,11 @@
     @onClickRotacao180="onClickRotacao180()"
     @onClickRotacao90Horario="onClickRotacao90Horario()"
     @onClickRotacao90AntiHorario="onClickRotacao90AntiHorario()"
+    @onClickExibirHistogramaImagemEntrada="onClickExibirHistogramaImagemEntrada()"
+    @onClickExibirHistogramaImagemResultante="onClickExibirHistogramaImagemResultante()"
   />
+
+  <Histograma v-model:imagem="imagemMatrizHistograma" v-model:exibirDialog="exibirHistograma" />
 </template>
 
 <script setup lang="ts">
@@ -79,14 +83,17 @@ import CFiltroRotacao90AntiHorario from '@/services/CFiltroRotacao90AntiHorario'
 
 // Enums
 import { EOpcoesVisualizacao } from '@/enums/EOpcoesVisualizacao'
+import Histograma from './components/Histograma.vue'
 
 // Propriedades reativas
 const exibirFiltros = ref<boolean>(false)
+const exibirHistograma = ref<boolean>(false)
 
 const imagemEntradaMatriz = ref<number[][]>([])
 const imagemResultadoMatriz = ref<number[][]>([])
 const imagemEntradaBase64 = ref<string | null>(null)
 const imagemResultadoBase64 = ref<string | null>(null)
+const imagemMatrizHistograma = ref<number[][]>([])
 
 const expandirImagem = ref<boolean>(false)
 const opcaoVisualizacao = ref<number>(EOpcoesVisualizacao.APENAS_ENTRADA)
@@ -182,6 +189,16 @@ async function onClickRotacao90AntiHorario() {
     exibirMensagem('Erro ao rotacionar imagem', error)
     throw error
   }
+}
+
+function onClickExibirHistogramaImagemEntrada() {
+  exibirHistograma.value = !exibirHistograma.value
+  imagemMatrizHistograma.value = imagemEntradaMatriz.value
+}
+
+function onClickExibirHistogramaImagemResultante() {
+  exibirHistograma.value = !exibirHistograma.value
+  imagemMatrizHistograma.value = imagemResultadoMatriz.value
 }
 
 function exibirMensagem(pTitulo: string = 'Erro', pErro: string | any) {
