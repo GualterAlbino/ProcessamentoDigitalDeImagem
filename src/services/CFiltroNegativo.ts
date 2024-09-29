@@ -1,8 +1,6 @@
 import CFiltro from './base/CFiltro'
 
 export default class CFiltroNegativo implements IFiltro {
-  ordem: number = 0
-
   public executar(pImagem: number[][]): number[][] {
     try {
       const matriz = pImagem
