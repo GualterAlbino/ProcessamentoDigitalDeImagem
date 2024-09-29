@@ -40,11 +40,23 @@
             :key="index"
             class="d-flex justify-center"
           >
+            <v-file-input
+              v-if="String(index) == 'imagem'"
+              :color="'primary'"
+              :prependIcon="''"
+              :variant="'outlined'"
+              :label="'Carregar imagem'"
+              :appendInnerIcon="'mdi-upload'"
+              :accept="'image/png, image/jpeg, image/bmp'"
+              @change="onImageParametroChange(String(index), $event)"
+            ></v-file-input>
+
             <v-text-field
+              v-else
               :variant="'outlined'"
               v-model="params[index]"
               :label="`Parâmetro: ${index}`"
-              @input="onParamChange(index, param)"
+              @input="atualizarParametro(String(index), param)"
             />
           </v-col>
         </v-row>
@@ -56,16 +68,21 @@
 </template>
 
 <script lang="ts" setup>
+import CFiltro from '@/services/base/CFiltro'
+
 // Vue
-const emit = defineEmits(['onDelete', 'onParamUpdate'])
+const emit = defineEmits(['onDelete'])
 
 // Props do componente
 const props = defineProps({
   titulo: { type: String, required: true },
   subtitulo: { type: String, required: false },
   ordem: { type: Number, required: true },
-  index: { type: Number, required: true },
-  params: { type: Object, required: true }
+  index: { type: Number, required: true }
+})
+
+const params = defineModel<any>('params', {
+  required: true
 })
 
 // Função para deletar item
@@ -74,9 +91,39 @@ function onDeleteItem(pIndex: number) {
 }
 
 // Função chamada quando o parâmetro é alterado
-function onParamChange(pIndex: string, pValor: any) {
-  console.log('onParamChange', pIndex, pValor)
-  emit('onParamUpdate', { index: pIndex, pValor })
+function atualizarParametro(pIndexCampo: string, pValor: any) {
+  //Atribui o valor ao parâmetro
+  //ex: params.value['tamanhoMascara'] = 5
+  params.value[pIndexCampo] = pValor
+}
+
+function onImageParametroChange(pIndex: string, pEvent: Event) {
+  try {
+    const target = pEvent.target as HTMLInputElement
+    const file = target.files?.[0]
+
+    let imagemBase64 = ''
+    let imagemMatriz: number[][] = []
+
+    if (file) {
+      const reader = new FileReader()
+
+      reader.onload = async () => {
+        imagemBase64 = reader.result as string
+        imagemMatriz = await CFiltro.base64ToMatriz(imagemBase64)
+
+        atualizarParametro(pIndex, imagemMatriz)
+      }
+
+      reader.readAsDataURL(file)
+    } else {
+      imagemBase64 = ''
+      imagemMatriz = []
+    }
+  } catch (error) {
+    console.error(error)
+    throw error
+  }
 }
 </script>
 

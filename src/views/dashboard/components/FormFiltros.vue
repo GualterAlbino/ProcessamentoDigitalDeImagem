@@ -43,11 +43,10 @@
                       <InputGenerico
                         :index="index"
                         :ordem="index"
-                        :params="filtro.params"
                         :titulo="filtro.titulo"
+                        v-model:params="filtro.params"
                         :subtitulo="filtro.subtitulo"
                         @onDelete="onDeleteFiltro($event)"
-                        @onParamUpdate="onParamUpdate($event)"
                       />
                     </div>
                   </VueDraggable>
@@ -170,23 +169,6 @@ const imagem = defineModel<number[][]>('imagem', {
 
 function onDeleteFiltro(pIndex: number) {
   filtros.value.splice(pIndex, 1)
-}
-
-function onParamUpdate(pData: { index: number; pValor: any }) {
-  try {
-    console.log('Chegou aqui na atualização de parametros: ', pData)
-
-    if (!filtros.value[pData.index]) {
-      return
-    }
-
-    filtros.value[pData.index].params = pData.pValor
-
-    console.log('Filtros atualizados: ', filtros.value)
-  } catch (error) {
-    exibirMensagem('Erro ao atualizar parâmetros do filtro! ', error)
-    throw error
-  }
 }
 
 function onClickFecharDialog() {
@@ -355,7 +337,6 @@ watch(
   (newValue) => {
     // Limpa os filtros quando a imagem é alterada
     if (newValue.length === 0) {
-      console.log('Limpando filtros')
       ordem.value = 0
       filtros.value = []
     }
