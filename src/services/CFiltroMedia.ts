@@ -9,8 +9,6 @@ export default class CFiltroMedia implements IFiltro {
         throw 'O tamanho da máscara deve ser um número ímpar'
       }
 
-      console.log('Tamanho da máscara: ', this.tamanhoMascara)
-
       const matriz = pImagem
       const linhas = matriz.length
       const colunas = matriz[0].length
