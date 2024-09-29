@@ -1,5 +1,4 @@
 export default class CFiltroCompressao implements IFiltro {
-  ordem: number = 0
   public a: number = 0
   public b: number = 0
 
