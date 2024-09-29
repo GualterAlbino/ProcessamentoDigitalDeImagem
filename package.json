@@ -6,7 +6,7 @@
   "engines": {
     "node": ">=22.1.0"
   },
-  "version": "0.0.0",
+  "version": "1.0.0",
   "private": true,
   "type": "module",
   "scripts": {
@@ -21,6 +21,7 @@
   "dependencies": {
     "pinia": "^2.1.7",
     "vue": "^3.4.29",
+    "vue-draggable-plus": "^0.5.3",
     "vue-router": "^4.3.3",
     "vuetify": "^3.7.1"
   },
