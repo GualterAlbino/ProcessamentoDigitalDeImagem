@@ -102,15 +102,24 @@ import { ETipoFiltroPDI } from '@/enums/ETipoFiltroPDI'
 import type IFiltroFormFiltro from './types/IFiltroFormFiltro'
 
 // Services
+import CFiltroModa from '@/services/CFiltroModa'
 import CFiltroRaiz from '@/services/CFiltroRaiz'
 import CFiltroMedia from '@/services/CFiltroMedia'
+import CFiltroSobel from '@/services/CFiltroSobel'
+import CFiltroMaximo from '@/services/CFiltroMaximo'
+import CFiltroMinimo from '@/services/CFiltroMinimo'
+import CFiltroPrewitt from '@/services/CFiltroPrewitt'
+import CFiltroMediana from '@/services/CFiltroMediana'
 import CFiltroPotencia from '@/services/CFiltroPotencia'
 import CFiltroNegativo from '@/services/CFiltroNegativo'
 import CFiltroExpansao from '@/services/CFiltroExpansao'
+import CFiltroHighBoost from '@/services/CFiltroHighBoost'
 import CFiltroCompressao from '@/services/CFiltroCompressao'
 import CFiltroLogaritimo from '@/services/CFiltroLogaritimo'
+import CFiltroLaplaciano from '@/services/CFiltroLaplaciano'
 import CFiltroAmpliacao512 from '@/services/CFiltroAmpliacao512'
 import CFiltroSomarImagens from '@/services/CFiltroSomarImagens'
+import CFiltroLogaritimoInverso from '@/services/CFiltroLogaritimoInverso'
 import CFiltroEspelhamentoVertical from '@/services/CFiltroEpelhamentoVertical'
 import CFiltroEspelhamentoHorizontal from '@/services/CFiltroEspelhamentoHorizontal'
 
@@ -201,7 +210,7 @@ function onClickAdicionarFiltro() {
         break
 
       case ETipoFiltroPDI.LOGARITIMO_INVERSO:
-        instanciaFiltro = new CFiltroLogaritimo()
+        instanciaFiltro = new CFiltroLogaritimoInverso()
         break
 
       case ETipoFiltroPDI.POTENCIA:
@@ -253,35 +262,35 @@ function onClickAdicionarFiltro() {
         break
 
       case ETipoFiltroPDI.MEDIANA:
-        instanciaFiltro = new CFiltroMedia()
+        instanciaFiltro = new CFiltroMediana()
         break
 
       case ETipoFiltroPDI.MODA:
-        instanciaFiltro = new CFiltroMedia()
+        instanciaFiltro = new CFiltroModa()
         break
 
       case ETipoFiltroPDI.MINIMO:
-        instanciaFiltro = new CFiltroMedia()
+        instanciaFiltro = new CFiltroMinimo()
         break
 
       case ETipoFiltroPDI.MAXIMO:
-        instanciaFiltro = new CFiltroMedia()
+        instanciaFiltro = new CFiltroMaximo()
         break
 
       case ETipoFiltroPDI.LAPLACIANO:
-        instanciaFiltro = new CFiltroMedia()
+        instanciaFiltro = new CFiltroLaplaciano()
         break
 
       case ETipoFiltroPDI.HIGH_BOOST:
-        instanciaFiltro = new CFiltroMedia()
+        instanciaFiltro = new CFiltroHighBoost()
         break
 
       case ETipoFiltroPDI.PREWITT:
-        instanciaFiltro = new CFiltroMedia()
+        instanciaFiltro = new CFiltroPrewitt()
         break
 
       case ETipoFiltroPDI.SOBEL:
-        instanciaFiltro = new CFiltroMedia()
+        instanciaFiltro = new CFiltroSobel()
         break
     }
 

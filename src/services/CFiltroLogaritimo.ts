@@ -21,9 +21,10 @@ export default class CFiltroLogaritimo implements IFiltro {
           } else if (pixelLog < 0) {
             pixelLog = 0
           }
+          matrizLog.push(linhaLog);
           linhaLog.push(pixelLog)
+
         }
-        console.log(linhaLog)
         matrizLog.push(linhaLog)
       }
       return matrizLog

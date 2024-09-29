@@ -50,7 +50,11 @@
     @onImagemAtualizada="onImagemAtualizada($event)"
   />
 
-  <SpeedDial />
+  <SpeedDial
+    @onClickRotacao180="onClickRotacao180()"
+    @onClickRotacao90Horario="onClickRotacao90Horario()"
+    @onClickRotacao90AntiHorario="onClickRotacao90AntiHorario()"
+  />
 </template>
 
 <script setup lang="ts">
@@ -59,18 +63,22 @@ import { ref, computed } from 'vue'
 
 // Store
 import { useLayoutStore } from '@/stores/LayoutStore'
+const layout = useLayoutStore()
 
 // Components
+import SpeedDial from './components/SpeedDial.vue'
 import CardImage from './components/CardImage.vue'
 import FormFiltros from './components/FormFiltros.vue'
 import ToolbarDashboard from './components/ToolbarDashboard.vue'
 
 // Services
 import CFiltro from '@/services/base/CFiltro'
+import CFiltroRotacao180 from '@/services/CFiltroRotacao180'
+import CFiltroRotacao90Horario from '@/services/CFiltroRotacao90Horario'
+import CFiltroRotacao90AntiHorario from '@/services/CFiltroRotacao90AntiHorario'
 
 // Enums
 import { EOpcoesVisualizacao } from '@/enums/EOpcoesVisualizacao'
-import SpeedDial from './components/SpeedDial.vue'
 
 // Propriedades reativas
 const exibirFiltros = ref<boolean>(false)
@@ -137,11 +145,52 @@ async function onImagemAtualizada(pMatriz: number[][]) {
     imagemResultadoMatriz.value = pMatriz
     imagemResultadoBase64.value = await CFiltro.matrizToBase64(imagemResultadoMatriz.value)
   } catch (error) {
-    console.error(error)
+    exibirMensagem('Erro ao atualizar imagem resultante', error)
     throw error
   } finally {
     useLayoutStore().loading.mensagem = ''
   }
+}
+
+async function onClickRotacao180() {
+  try {
+    imagemResultadoMatriz.value = new CFiltroRotacao180().executar(imagemResultadoMatriz.value)
+    imagemResultadoBase64.value = await CFiltro.matrizToBase64(imagemResultadoMatriz.value)
+  } catch (error) {
+    exibirMensagem('Erro ao rotacionar imagem', error)
+    throw error
+  }
+}
+
+async function onClickRotacao90Horario() {
+  try {
+    imagemResultadoMatriz.value = new CFiltroRotacao90Horario().executar(
+      imagemResultadoMatriz.value
+    )
+    imagemResultadoBase64.value = await CFiltro.matrizToBase64(imagemResultadoMatriz.value)
+  } catch (error) {
+    exibirMensagem('Erro ao rotacionar imagem', error)
+    throw error
+  } finally {
+  }
+}
+
+async function onClickRotacao90AntiHorario() {
+  try {
+    imagemResultadoMatriz.value = new CFiltroRotacao90AntiHorario().executar(
+      imagemResultadoMatriz.value
+    )
+    imagemResultadoBase64.value = await CFiltro.matrizToBase64(imagemResultadoMatriz.value)
+  } catch (error) {
+    exibirMensagem('Erro ao rotacionar imagem', error)
+    throw error
+  }
+}
+
+function exibirMensagem(pTitulo: string = 'Erro', pErro: string | any) {
+  useLayoutStore().messageDialog.show = true
+  useLayoutStore().messageDialog.titulo = pTitulo
+  useLayoutStore().messageDialog.mensagem = pErro instanceof Error ? pErro.message : pErro
 }
 
 //-----
