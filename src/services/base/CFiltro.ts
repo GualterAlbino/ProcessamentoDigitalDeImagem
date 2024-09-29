@@ -5,6 +5,9 @@ import type CFiltroLogaritimo from '../CFiltroLogaritimo'
 import type CFiltroEspelhamentoVertical from '../CFiltroEpelhamentoVertical'
 import type CFiltroEspelhamentoHorizontal from '../CFiltroEspelhamentoHorizontal'
 
+// Store
+import { useLayoutStore } from '@/stores/LayoutStore'
+
 export default class CFiltro {
   negativo: CFiltroNegativo[] = []
   logaritimo: CFiltroLogaritimo[] = []
@@ -35,14 +38,15 @@ export default class CFiltro {
    * @param pImagem - Imagem no formato Base64
    * @returns - Uma Promise que resolve em uma matriz bidimensional (number[][]) com as intensidades dos pixels
    */
-  public static base64ToMatriz(pImagem: string): Promise<number[][]> {
+  public static async base64ToMatriz(pImagem: string): Promise<number[][]> {
     try {
+      useLayoutStore().loading.mensagem = 'Convertendo imagem para matriz de pixels...'
       return new Promise((resolve, reject) => {
         const image = new Image() // Cria um novo objeto de imagem
         image.src = pImagem // Define a fonte da imagem como a string Base64
 
         // Quando a imagem é carregada, executa o código abaixo
-        image.onload = () => {
+        image.onload = async () => {
           // Cria um canvas temporário para desenhar a imagem
           const canvas = document.createElement('canvas')
           const context = canvas.getContext('2d')
@@ -95,6 +99,8 @@ export default class CFiltro {
     } catch (error) {
       console.log(error)
       throw error // Lança o erro para tratamento externo
+    } finally {
+      useLayoutStore().loading.mensagem = ''
     }
   }
 
@@ -103,8 +109,9 @@ export default class CFiltro {
    * @param matriz - Matriz bidimensional contendo as intensidades dos pixels (número de 0 a 255)
    * @returns - Uma Promise que resolve para uma string Base64 que representa a imagem
    */
-  public static matrizToBase64(matriz: number[][]): Promise<string> {
+  public static async matrizToBase64(matriz: number[][]): Promise<string> {
     try {
+      useLayoutStore().loading.mensagem = 'Convertendo matriz de pixels para imagem...'
       return new Promise((resolve, reject) => {
         // Cria um canvas temporário
         const canvas = document.createElement('canvas')
@@ -150,6 +157,8 @@ export default class CFiltro {
     } catch (error) {
       console.log(error)
       throw error // Lança o erro para tratamento externo
+    } finally {
+      useLayoutStore().loading.mensagem = ''
     }
   }
 
