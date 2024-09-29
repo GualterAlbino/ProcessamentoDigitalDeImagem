@@ -94,7 +94,9 @@ function onDeleteItem(pIndex: number) {
 function atualizarParametro(pIndexCampo: string, pValor: any) {
   //Atribui o valor ao parâmetro
   //ex: params.value['tamanhoMascara'] = 5
-  params.value[pIndexCampo] = pValor
+  if (params.value) {
+    params.value[pIndexCampo] = pValor
+  }
 }
 
 function onImageParametroChange(pIndex: string, pEvent: Event) {

@@ -116,6 +116,7 @@ import CFiltroHighBoost from '@/services/CFiltroHighBoost'
 import CFiltroCompressao from '@/services/CFiltroCompressao'
 import CFiltroLogaritimo from '@/services/CFiltroLogaritimo'
 import CFiltroLaplaciano from '@/services/CFiltroLaplaciano'
+import CFiltroEqualizacao from '@/services/CFiltroEqualizacao'
 import CFiltroAmpliacao512 from '@/services/CFiltroAmpliacao512'
 import CFiltroSomarImagens from '@/services/CFiltroSomarImagens'
 import CFiltroLogaritimoInverso from '@/services/CFiltroLogaritimoInverso'
@@ -273,6 +274,10 @@ function onClickAdicionarFiltro() {
 
       case ETipoFiltroPDI.SOBEL:
         instanciaFiltro = new CFiltroSobel()
+        break
+
+      case ETipoFiltroPDI.EQUALIZACAO:
+        instanciaFiltro = new CFiltroEqualizacao()
         break
     }
 
