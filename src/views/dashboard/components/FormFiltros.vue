@@ -36,9 +36,9 @@
           <v-card-text>
             <!-- Conteúdo da lista com rolagem -->
             <div class="LStyleScrollableContent">
-              <v-card-subtitle
-                >Arraste os itens para definir a <strong>ordem</strong> de
-                aplicação.</v-card-subtitle
+              <v-card-subtitle v-if="filtros.length > 0"
+                >Arraste os itens para definir a <strong>ordem</strong> de aplicação dos
+                filtros.</v-card-subtitle
               >
               <v-row justify="center">
                 <v-col v-if="filtros.length > 0" :cols="12">
