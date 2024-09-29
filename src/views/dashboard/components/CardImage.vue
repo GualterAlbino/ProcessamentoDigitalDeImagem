@@ -15,7 +15,7 @@
                     <v-btn
                       :variant="'outlined'"
                       :color="'primary'"
-                      v-tooltip="'Tela Cheia'"
+                      v-tooltip="'Expandir Imagem'"
                       @click="onClickFullscrenImagem"
                     >
                       <v-icon>mdi-fullscreen</v-icon>
@@ -53,7 +53,6 @@
 
 <script setup lang="ts">
 // Vue
-import { computed } from 'vue'
 const emit = defineEmits(['onClickFullscrenImagem'])
 
 interface PropTypes {
