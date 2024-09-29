@@ -5,15 +5,16 @@ export default class CFiltroMedia implements IFiltro {
 
   public executar(pImagem: number[][]): number[][] {
     try {
-
       if (this.tamanhoMascara % 2 === 0) {
-        throw new Error('O tamanho da máscara deve ser um número ímpar')
+        throw 'O tamanho da máscara deve ser um número ímpar'
       }
+
+      console.log('Tamanho da máscara: ', this.tamanhoMascara)
 
       const matriz = pImagem
       const linhas = matriz.length
       const colunas = matriz[0].length
-      
+
       const matrizMedia: number[][] = Array.from({ length: linhas }, () => Array(colunas).fill(0))
 
       // Percorre a matriz, excluindo as bordas

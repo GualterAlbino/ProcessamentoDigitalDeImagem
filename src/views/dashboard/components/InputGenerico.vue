@@ -44,7 +44,7 @@
               :variant="'outlined'"
               v-model="params[index]"
               :label="`Parâmetro: ${index}`"
-              @input="onParamChange(Number(index), param)"
+              @input="onParamChange(index, param)"
             />
           </v-col>
         </v-row>
@@ -74,7 +74,8 @@ function onDeleteItem(pIndex: number) {
 }
 
 // Função chamada quando o parâmetro é alterado
-function onParamChange(pIndex: number, pValor: any) {
+function onParamChange(pIndex: string, pValor: any) {
+  console.log('onParamChange', pIndex, pValor)
   emit('onParamUpdate', { index: pIndex, pValor })
 }
 </script>
