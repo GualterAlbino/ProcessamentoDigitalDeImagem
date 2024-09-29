@@ -1,7 +1,7 @@
 import CFiltro from './base/CFiltro'
 
 export default class CFiltroNegativo implements IFiltro {
-  constructor() {}
+  ordem: number = 0
 
   public executar(pImagem: number[][]): number[][] {
     try {

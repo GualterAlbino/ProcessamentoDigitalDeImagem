@@ -1,4 +1,6 @@
 export default class CFiltroEspelhamentoVertical implements IFiltro {
+  ordem: number = 0
+
   constructor() {}
 
   public executar(pImagem: number[][]): number[][] {

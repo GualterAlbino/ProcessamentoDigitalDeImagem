@@ -1,6 +1,7 @@
 import CFiltro from './base/CFiltro'
 
 export default class CFiltroLogaritimo implements IFiltro {
+  ordem: number = 0
   constructor() {}
 
   public executar(pImagem: number[][]): number[][] {
