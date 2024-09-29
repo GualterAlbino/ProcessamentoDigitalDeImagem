@@ -1,19 +1,15 @@
 export default class CFiltroRotacao90 implements IFiltro {
   public executar(pImagem: number[][]): number[][] {
     try {
-      const linhas = pImagem.length
-      const colunas = pImagem[0].length
-      const matrizRotacionada: number[][] = Array.from({ length: colunas }, () =>
-        Array(linhas).fill(0)
-      )
+      const matriz = pImagem
+      const matrizRotacionada: number[][] = []
 
-      // Rotaciona a matriz 90 graus no sentido horário
-      for (let i = 0; i < linhas; i++) {
-        for (let j = 0; j < colunas; j++) {
-          matrizRotacionada[j][linhas - 1 - i] = pImagem[i][j]
+      for (let i = 0; i < matriz.length; i++) {
+        for (let j = 0; j < matriz[i].length; j++) {
+          matrizRotacionada[j] = matrizRotacionada[j] || [] // cria a linha se ainda não existir
+          matrizRotacionada[j][i] = matriz[i][j] // copia o pixel
         }
       }
-
       return matrizRotacionada
     } catch (error) {
       console.error(error)
