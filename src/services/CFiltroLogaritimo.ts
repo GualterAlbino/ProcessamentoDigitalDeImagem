@@ -21,13 +21,10 @@ export default class CFiltroLogaritimo implements IFiltro {
           } else if (pixelLog < 0) {
             pixelLog = 0
           }
-<<<<<<< HEAD
           console.log(linhaLog);
           matrizLog.push(linhaLog);
-
-=======
           linhaLog.push(pixelLog)
->>>>>>> d9922afa888daa778eb0675ae9c04988f52032a2
+
         }
         console.log(linhaLog)
         matrizLog.push(linhaLog)
