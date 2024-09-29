@@ -41,20 +41,33 @@
             </v-fab>
           </template>
 
-          <v-btn key="1" :color="'success'" :icon="true" v-tooltip="'Rotação 90º Sentido Horário'">
+          <v-btn
+            key="1"
+            :color="'success'"
+            :icon="true"
+            v-tooltip="'Rotação 90º Sentido Horário'"
+            @click="onClickRotacao90Horario()"
+          >
             <v-icon>mdi-rotate-right</v-icon>
           </v-btn>
 
           <v-btn
             key="2"
-            :color="'success'"
             :icon="true"
+            :color="'success'"
             v-tooltip="'Rotação 90º Sentido Anti-Horário'"
+            @click="onClickRotacao90AntiHorario()"
           >
             <v-icon>mdi-rotate-left</v-icon>
           </v-btn>
 
-          <v-btn key="3" :color="'success'" :icon="true" v-tooltip="'Rotação 180º'">
+          <v-btn
+            key="3"
+            :color="'success'"
+            :icon="true"
+            v-tooltip="'Rotação 180º'"
+            @click="onClickRotacao180()"
+          >
             <v-icon>mdi-restore</v-icon>
           </v-btn>
         </v-speed-dial>
@@ -63,7 +76,26 @@
   </div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+// Vue
+const emit = defineEmits([
+  'onClickRotacao90Horario',
+  'onClickRotacao90AntiHorario',
+  'onClickRotacao180'
+])
+
+function onClickRotacao180() {
+  emit('onClickRotacao180')
+}
+
+function onClickRotacao90Horario() {
+  emit('onClickRotacao90Horario')
+}
+
+function onClickRotacao90AntiHorario() {
+  emit('onClickRotacao90AntiHorario')
+}
+</script>
 
 <style scoped>
 .TStyleFab {
