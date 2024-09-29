@@ -1,4 +1,4 @@
-export default class CFiltroRotacao90 implements IFiltro {
+export default class CFiltroRotacao90Horario implements IFiltro {
   public executar(pImagem: number[][]): number[][] {
     try {
       const matriz = pImagem
