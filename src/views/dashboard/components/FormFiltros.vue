@@ -88,7 +88,7 @@
 
 <script lang="ts" setup>
 // Vue
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import { VueDraggable } from 'vue-draggable-plus'
 const emit = defineEmits(['onImagemAtualizada'])
 
@@ -349,6 +349,18 @@ async function onAplicarFiltros() {
     useLayoutStore().loading.mensagem = ''
   }
 }
+
+watch(
+  () => imagem.value,
+  (newValue) => {
+    // Limpa os filtros quando a imagem é alterada
+    if (newValue.length === 0) {
+      console.log('Limpando filtros')
+      ordem.value = 0
+      filtros.value = []
+    }
+  }
+)
 
 function exibirMensagem(pTitulo: string = 'Erro', pErro: string | any) {
   useLayoutStore().messageDialog.show = true

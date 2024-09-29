@@ -11,7 +11,7 @@
         :titulo="'Imagem de Entrada'"
         v-model:imagem="imagemEntradaBase64"
         :maxWidhtCard="widhtImage"
-        @onClickFullscrenImagem="onClickFullScreenImagemEntrada()"
+        @onClickFullscrenImagem="onClickFullScreenImagem()"
       >
         <template #actions>
           <v-file-input
@@ -33,7 +33,7 @@
         :maxWidhtCard="widhtImage"
         :titulo="'Imagem Resultante'"
         v-model:imagem="imagemResultadoBase64"
-        @onClickFullscrenImagem="onClickFullscrenImagemResultado()"
+        @onClickFullscrenImagem="onClickFullScreenImagem()"
       >
         <template #actions>
           <v-btn :color="'primary'" :variant="'outlined'" :size="'large'">
@@ -88,12 +88,13 @@ const imagemResultadoMatriz = ref<number[][]>([])
 const imagemEntradaBase64 = ref<string | null>(null)
 const imagemResultadoBase64 = ref<string | null>(null)
 
-const expandirImagemEntrada = ref<boolean>(false)
-const expandirImagemResultado = ref<boolean>(false)
+const expandirImagem = ref<boolean>(false)
 const opcaoVisualizacao = ref<number>(EOpcoesVisualizacao.APENAS_ENTRADA)
 
 // Manipula o evento de mudança de imagem
 async function onImageEntradaChange(event: Event) {
+  onClearImagem()
+
   const target = event.target as HTMLInputElement
   const file = target.files?.[0]
 
@@ -131,12 +132,8 @@ function onClickFiltros() {
   exibirFiltros.value = !exibirFiltros.value
 }
 
-function onClickFullScreenImagemEntrada() {
-  expandirImagemEntrada.value = !expandirImagemEntrada.value
-}
-
-function onClickFullscrenImagemResultado() {
-  expandirImagemResultado.value = !expandirImagemResultado.value
+function onClickFullScreenImagem() {
+  expandirImagem.value = !expandirImagem.value
 }
 
 async function onImagemAtualizada(pMatriz: number[][]) {
@@ -213,7 +210,7 @@ const colunasImagem = computed(() => {
 })
 
 const widhtImage = computed(() => {
-  return expandirImagemEntrada.value || expandirImagemResultado.value ? '1000' : '400px'
+  return expandirImagem.value ? '1000px' : '400px'
 })
 
 const exibeImagemEntrada = computed(() => {
