@@ -182,7 +182,7 @@ function onClickFecharDialog() {
 
 function onClickAdicionarFiltro() {
   try {
-    if (filtroSelecionado.value && filtroSelecionado.value.valor == 0) {
+    if (!filtroSelecionado.value || filtroSelecionado.value.valor == 0) {
       return
     }
 
@@ -315,26 +315,34 @@ async function onAplicarFiltros() {
     }
 
     if (imagem.value.length === 0) {
-      exibirMensagem('Erro ao aplicar filtros! ', 'Imagem não carregada')
+      exibirMensagem('Erro ao aplicar filtros!', 'Imagem não carregada')
       return
     }
-
-    exibirDialog.value = false
     useLayoutStore().loading.mensagem = 'Aplicando filtros...'
+    exibirDialog.value = false
+
+    // Pequeno atraso para garantir que o loading seja exibido
+    await new Promise((resolve) => setTimeout(resolve, 100))
 
     let resultado: number[][] = imagem.value
 
     const filtrosOrdenados = filtros.value.sort((a, b) => a.ordem - b.ordem)
-    for (const filtro of filtrosOrdenados) {
-      resultado = await filtro.params.executar(resultado)
-    }
 
-    // 24 filtros da aba filtros
+    for (const filtro of filtrosOrdenados) {
+      resultado = await new Promise<number[][]>((resolve, reject) => {
+        try {
+          const resultadoFiltro = filtro.params.executar(resultado)
+          resolve(resultadoFiltro)
+        } catch (error) {
+          reject(error)
+        }
+      })
+    }
 
     emit('onImagemAtualizada', resultado)
   } catch (error) {
     console.error(error)
-    exibirMensagem('Erro ao aplicar filtros! ', error)
+    exibirMensagem('Erro ao aplicar filtros!', error)
   } finally {
     exibirDialog.value = false
     useLayoutStore().loading.mensagem = ''
