@@ -36,7 +36,12 @@
         @onClickFullscrenImagem="onClickFullScreenImagem()"
       >
         <template #actions>
-          <v-btn :color="'primary'" :variant="'outlined'" :size="'large'">
+          <v-btn
+            :color="'primary'"
+            :variant="'outlined'"
+            :size="'large'"
+            @click="onClickBaixarImagem()"
+          >
             Baixar imagem<v-icon>mdi-download</v-icon></v-btn
           >
         </template>
@@ -72,6 +77,7 @@ const layout = useLayoutStore()
 // Components
 import SpeedDial from './components/SpeedDial.vue'
 import CardImage from './components/CardImage.vue'
+import Histograma from './components/Histograma.vue'
 import FormFiltros from './components/FormFiltros.vue'
 import ToolbarDashboard from './components/ToolbarDashboard.vue'
 
@@ -83,7 +89,6 @@ import CFiltroRotacao90AntiHorario from '@/services/CFiltroRotacao90AntiHorario'
 
 // Enums
 import { EOpcoesVisualizacao } from '@/enums/EOpcoesVisualizacao'
-import Histograma from './components/Histograma.vue'
 
 // Propriedades reativas
 const exibirFiltros = ref<boolean>(false)
@@ -125,6 +130,35 @@ async function onImageEntradaChange(event: Event) {
   opcaoVisualizacao.value = EOpcoesVisualizacao.COMPARACAO
 }
 
+function onClickBaixarImagem() {
+  if (imagemResultadoBase64.value) {
+    // Converter a imagem Base64 para Blob
+    const link = document.createElement('a')
+    const dataUrl = imagemResultadoBase64.value
+    const mimeType = dataUrl.split(';')[0].split(':')[1]
+    const byteString = atob(dataUrl.split(',')[1])
+    const arrayBuffer = new ArrayBuffer(byteString.length)
+    const intArray = new Uint8Array(arrayBuffer)
+
+    // Preencher a array de bytes
+    for (let i = 0; i < byteString.length; i++) {
+      intArray[i] = byteString.charCodeAt(i)
+    }
+
+    // Criar o Blob a partir da array de bytes
+    const blob = new Blob([intArray], { type: mimeType })
+
+    // Criar um link temporário para download
+    const url = URL.createObjectURL(blob)
+    link.href = url
+    link.download = 'imagem_resultante.png' // Nome do arquivo de download
+    link.click()
+
+    // Limpar o objeto URL após o download
+    URL.revokeObjectURL(url)
+  }
+}
+
 function onClearImagem() {
   imagemEntradaBase64.value = null
   imagemResultadoBase64.value = null
@@ -158,16 +192,28 @@ async function onImagemAtualizada(pMatriz: number[][]) {
 
 async function onClickRotacao180() {
   try {
+    layout.loading.mensagem = 'Rotacionando imagem...'
+
+    // Pequeno atraso para garantir que o loading seja exibido
+    await new Promise((resolve) => setTimeout(resolve, 50))
+
     imagemResultadoMatriz.value = new CFiltroRotacao180().executar(imagemResultadoMatriz.value)
     imagemResultadoBase64.value = await CFiltro.matrizToBase64(imagemResultadoMatriz.value)
   } catch (error) {
     exibirMensagem('Erro ao rotacionar imagem', error)
     throw error
+  } finally {
+    layout.loading.mensagem = ''
   }
 }
 
 async function onClickRotacao90Horario() {
   try {
+    layout.loading.mensagem = 'Rotacionando imagem...'
+
+    // Pequeno atraso para garantir que o loading seja exibido
+    await new Promise((resolve) => setTimeout(resolve, 50))
+
     imagemResultadoMatriz.value = new CFiltroRotacao90Horario().executar(
       imagemResultadoMatriz.value
     )
@@ -176,11 +222,17 @@ async function onClickRotacao90Horario() {
     exibirMensagem('Erro ao rotacionar imagem', error)
     throw error
   } finally {
+    layout.loading.mensagem = ''
   }
 }
 
 async function onClickRotacao90AntiHorario() {
   try {
+    layout.loading.mensagem = 'Rotacionando imagem...'
+
+    // Pequeno atraso para garantir que o loading seja exibido
+    await new Promise((resolve) => setTimeout(resolve, 50))
+
     imagemResultadoMatriz.value = new CFiltroRotacao90AntiHorario().executar(
       imagemResultadoMatriz.value
     )
@@ -188,6 +240,8 @@ async function onClickRotacao90AntiHorario() {
   } catch (error) {
     exibirMensagem('Erro ao rotacionar imagem', error)
     throw error
+  } finally {
+    layout.loading.mensagem = ''
   }
 }
 
