@@ -15,8 +15,29 @@
             </v-row>
           </v-toolbar>
 
-          <div class="LStyleScrollableContent">
+          <div v-if="layout.loading.mensagem !== ''">
+            <div
+              :style="{
+                height: '60vh',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center'
+              }"
+            >
+              <v-progress-circular
+                :width="7"
+                :rotate="360"
+                :size="100"
+                :color="'primary'"
+                :indeterminate="true"
+              >
+              </v-progress-circular>
+            </div>
+          </div>
+
+          <div v-else class="LStyleScrollableContent">
             <GraficoDeBarras
+              :key="keyGrafico"
               :labels="dadosGrafico.labels"
               :valores="dadosGrafico.valores"
               titulo="Histograma de Níveis de Cinza"
@@ -32,12 +53,17 @@
 // Vue
 import { ref, watch } from 'vue'
 
+// Store
+import { useLayoutStore } from '@/stores/LayoutStore'
+const layout = useLayoutStore()
+
 // Services
 import CFiltroHistograma from '@/services/CFiltroHistograma'
 
 // Components
 import GraficoDeBarras from '@/components/GraficoDeBarras.vue'
 
+const keyGrafico = ref(0) // Chave para forçar a atualização do gráfico
 const imagem = defineModel<number[][]>('imagem', { required: true }) // Imagem a ser processada
 const exibirDialog = defineModel<boolean>('exibirDialog', { required: true })
 
@@ -48,13 +74,27 @@ const dadosGrafico = ref({
 })
 
 // Função que calcula os dados do histograma
-const calcularDadosGrafico = () => {
-  const filtroHistograma = new CFiltroHistograma()
-  const { labels, dados } = filtroHistograma.gerarDadosGrafico(imagem.value)
+const calcularDadosGrafico = async () => {
+  try {
+    layout.loading.mensagem = 'Calculando histograma...'
 
-  dadosGrafico.value = {
-    labels: labels.map((l) => l.toString()), // Converter os níveis de cinza para string
-    valores: dados // Frequência de cada nível de cinza
+    // Pequeno atraso para garantir que o loading seja exibido
+    await new Promise((resolve) => setTimeout(resolve, 100))
+
+    const filtroHistograma = new CFiltroHistograma()
+    const { labels, dados } = filtroHistograma.gerarDadosGrafico(imagem.value)
+
+    dadosGrafico.value = {
+      labels: labels.map((l) => l.toString()), // Converter os níveis de cinza para string
+      valores: dados // Frequência de cada nível de cinza
+    }
+
+    keyGrafico.value += 1 // Forçar a atualização do gráfico
+  } catch (error) {
+    console.error(error)
+    throw error
+  } finally {
+    layout.loading.mensagem = ''
   }
 }
 
