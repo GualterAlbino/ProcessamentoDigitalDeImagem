@@ -6,8 +6,8 @@
   "engines": {
     "node": ">=22.1.0"
   },
-  "version": "1.2.0",
-  "private": true,
+  "version": "1.2.1",
+  "private": false,
   "type": "module",
   "scripts": {
     "dev": "vite",
