@@ -1,7 +1,7 @@
 # 🖼️ **Projeto de Processamento de Imagens**
 
 ## 📚 Descrição
-Este projeto visa desenvolver um software para computar e exibir a imagem resultante de várias funções de processamento de imagens. As funções implementadas incluem:
+Repositório relacionado a atividade da disciplina de CGPDI - UniFagoc 2024.2 que propos o desenvolvimneto de um software para computar e exibir a imagem resultante de várias funções de processamento de imagens. As funções implementadas incluem:
 
 ### 🔧 Funcionalidades Implementadas:
 - **Função Ponta de Prova**: Apresenta o nível de cinza (NC) e as coordenadas do pixel apontado pelo mouse.
