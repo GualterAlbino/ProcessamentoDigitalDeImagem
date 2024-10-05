@@ -5,7 +5,7 @@
     @onClickFiltros="onClickFiltros()"
   />
 
-  <v-row>
+  <v-row v-if="showCardImagens">
     <v-col v-if="exibeImagemEntrada" :cols="$vuetify.display.smAndUp ? colunasImagem : 12">
       <CardImage
         :titulo="'Imagem de Entrada'"
@@ -21,6 +21,7 @@
             :appendInnerIcon="'mdi-upload'"
             :label="'Carregar imagem'"
             :accept="'image/png, image/jpeg, image/bmp'"
+            v-model="inputFile"
             @change="onImageEntradaChange($event)"
             @click:clear="onClearImagem()"
           ></v-file-input>
@@ -91,6 +92,10 @@ import CFiltroRotacao90AntiHorario from '@/services/CFiltroRotacao90AntiHorario'
 import { EOpcoesVisualizacao } from '@/enums/EOpcoesVisualizacao'
 
 // Propriedades reativas
+const inputFile = ref()
+
+const showCardImagens = ref<boolean>(true)
+
 const exibirFiltros = ref<boolean>(false)
 const exibirHistograma = ref<boolean>(false)
 
@@ -119,13 +124,16 @@ async function onImageEntradaChange(event: Event) {
 
       imagemEntradaMatriz.value = await CFiltro.base64ToMatriz((reader.result as string) || '')
       imagemResultadoMatriz.value = await CFiltro.base64ToMatriz((reader.result as string) || '')
-      //console.log(await CFiltro.obterMatrizImagem((reader.result as string) || ''))
     }
 
     reader.readAsDataURL(file)
   } else {
     onClearImagem()
   }
+  showCardImagens.value = false
+  setTimeout(() => {
+    showCardImagens.value = true
+  }, 100)
 
   opcaoVisualizacao.value = EOpcoesVisualizacao.COMPARACAO
 }
