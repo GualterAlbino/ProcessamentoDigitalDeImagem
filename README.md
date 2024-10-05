@@ -1,5 +1,12 @@
 # 🖼️ **Projeto de Processamento de Imagens**
 
+## 🌐 Projeto Disponível
+Você pode acessar o projeto em: [processamentodigitaldeimagem.netlify.app](https://processamentodigitaldeimagem.netlify.app)
+
+## 👤 Autores
+- **Gualter Albino**: [GitHub](https://github.com/GualterAlbino)
+- **João Vitor Teixeira**: [GitHub](https://github.com/jvtei45)
+
 ## 📚 Descrição
 Repositório relacionado a atividade da disciplina de CGPDI - UniFagoc 2024.2 que propos o desenvolvimneto de um software para computar e exibir a imagem resultante de várias funções de processamento de imagens. As funções implementadas incluem:
 
@@ -23,18 +30,11 @@ Repositório relacionado a atividade da disciplina de CGPDI - UniFagoc 2024.2 qu
 - **Filtros de Média, Mediana, Moda, MIN e MAX**: Aplica diferentes filtros estatísticos na imagem.
 - **Operadores Laplaciano e High Boost**: Realça detalhes na imagem.
 - **Operadores Prewitt e Sobel**: Detecta bordas na imagem.
-
-## 🌐 Projeto Disponível
-Você pode acessar o projeto em: [processamentodigitaldeimagem.netlify.app](https://processamentodigitaldeimagem.netlify.app)
-
+  
 ## 🎨 Tecnologias Utilizadas
 - **Vue.js**: Para construção da interface do usuário.
 - **TypeScript**: Para garantir a tipagem estática e melhorar a manutenção do código.
 - **HTML5 Canvas**: Para manipulação de imagens.
-
-## 👤 Autores
-- **Gualter Albino**: [GitHub](https://github.com/GualterAlbino)
-- **João Vitor Teixeira**: [GitHub](https://github.com/jvtei45)
 
 ## 📄 Licença
 Este projeto está licenciado sob a [MIT License](LICENSE).
