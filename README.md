@@ -34,7 +34,7 @@ Você pode acessar o projeto em: [processamentodigitaldeimagem.netlify.app](http
 
 ## 👤 Autores
 - **Gualter Albino**: [GitHub](https://github.com/GualterAlbino)
-- **JV Tei**: [GitHub](https://github.com/jvtei45)
+- **João Vitor Teixeira**: [GitHub](https://github.com/jvtei45)
 
 ## 📄 Licença
 Este projeto está licenciado sob a [MIT License](LICENSE).
