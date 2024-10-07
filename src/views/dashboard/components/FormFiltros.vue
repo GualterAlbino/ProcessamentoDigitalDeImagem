@@ -129,6 +129,9 @@ import CFiltroEspelhamentoHorizontal from '@/services/CFiltroEspelhamentoHorizon
 
 // Components
 import InputGenerico from './InputGenerico.vue'
+import CFiltroAmpliacaoBilinear512 from '@/services/CFiltroAmpliacaoBilinear512'
+import CFiltroAmpliacaoBilinear1024 from '@/services/CFiltroAmpliacaoBilinear1024'
+import CFiltroAmpliacao1024 from '@/services/CFiltroAmpliacao1024'
 
 // Propriedades reativas
 const ordem = ref<number>(0)
@@ -213,7 +216,7 @@ function onClickAdicionarFiltro() {
         break
 
       case ETipoFiltroPDI.AMPLIACAO_REPLICACAO_1024X1024:
-        instanciaFiltro = new CFiltroAmpliacao512()
+        instanciaFiltro = new CFiltroAmpliacao1024()
         break
 
       case ETipoFiltroPDI.AMPLIACAO_BILINEAR_512X512:
@@ -221,7 +224,7 @@ function onClickAdicionarFiltro() {
         break
 
       case ETipoFiltroPDI.AMPLIACAO_BILINEAR_1024X1024:
-        instanciaFiltro = new CFiltroAmpliacao512()
+        instanciaFiltro = new CFiltroAmpliacao1024()
         break
 
       case ETipoFiltroPDI.ESPELHAMENTO_HORIZONTAL:
