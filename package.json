@@ -1,12 +1,12 @@
 {
   "name": "cgpdi",
   "author": {
-    "name": "Gualter Albino / Marcos Paulo / João Vitor Teixeira"
+    "name": "Gualter Albino / João Vitor Teixeira"
   },
   "engines": {
     "node": ">=22.1.0"
   },
-  "version": "1.3.0",
+  "version": "1.4.0",
   "private": false,
   "type": "module",
   "scripts": {
