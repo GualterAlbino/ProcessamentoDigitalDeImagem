@@ -6,6 +6,7 @@ Você pode acessar o projeto em: [processamentodigitaldeimagem.netlify.app](http
 ## 👤 Autores
 - **Gualter Albino**: [GitHub](https://github.com/GualterAlbino)
 - **João Vitor Teixeira**: [GitHub](https://github.com/jvtei45)
+- **Marcos Paulo**: [GitHub](https://github.com/jvtei45](https://github.com/MarcosPauloV))
 
 ## 📚 Descrição
 Repositório relacionado a atividade da disciplina de CGPDI - UniFagoc 2024.2 que propos o desenvolvimneto de um software para computar e exibir a imagem resultante de várias funções de processamento de imagens. As funções implementadas incluem:
